@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -46,10 +47,12 @@ class FindProductBottomSheetDialogFragment
             view?.findViewById<TextView>(R.id.identifier_type_label)?.text = it
         })
         viewModel.identifierTypeHint.observe(viewLifecycleOwner, Observer {
-            view?.findViewById<TextInputEditText>(R.id.search_input_edit_text)?.hint = it
+            view?.findViewById<AppCompatEditText>(R.id.search_input)?.hint = it
         })
 
         view?.findViewById<Button>(R.id.search_button)?.setOnClickListener { viewModel.search() }
+
+        view?.findViewById<Spinner>(R.id.identifier_type)?.dropDownHorizontalOffset = 500
 
         val spinner = view?.findViewById<Spinner>(R.id.identifier_type)
         spinner?.adapter = ArrayAdapter<String>(activity!!, R.layout.product_identifier_type_layout, viewModel.identifierTypes())

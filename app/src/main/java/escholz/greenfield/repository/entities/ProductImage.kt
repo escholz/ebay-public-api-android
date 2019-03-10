@@ -18,7 +18,7 @@ import androidx.room.ForeignKey.CASCADE
     ]
 )
 data class ProductImage(
-    @PrimaryKey var id: Int?,
+    @PrimaryKey(autoGenerate = true) var id: Int?,
     @ColumnInfo(name = "product_id") var productId: Int?,
     var width: Int?,
     var height: Int?,

@@ -1,6 +1,6 @@
-package escholz.greenfield.net.auth
+package escholz.greenfield.net.auth.models
 
-data class TokenGrant(
+data class Token(
     val accessToken: String,
     val expiresIn: Long,
     val refreshToken: String,

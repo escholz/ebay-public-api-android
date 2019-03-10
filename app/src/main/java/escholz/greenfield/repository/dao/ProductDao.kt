@@ -15,8 +15,8 @@ interface ProductDao {
     fun delete(product: Product) : Int
 
     @Query("SELECT * FROM products WHERE id = :id")
-    fun findProductById(id: Int) : Product
+    fun findById(id: Int) : Product
 
     @Query("SELECT * FROM products WHERE epid = :epid")
-    fun findProductByEpid(epid: String) : Product
+    fun findByEpid(epid: String) : Product
 }

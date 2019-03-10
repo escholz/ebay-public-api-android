@@ -7,7 +7,9 @@ import dagger.Provides
 import dagger.Reusable
 import escholz.greenfield.repository.AppDatabase
 import escholz.greenfield.repository.dao.ProductDao
+import escholz.greenfield.repository.dao.TokenDao
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import javax.inject.Singleton
@@ -24,5 +26,11 @@ class DatabaseModule {
     @Singleton
     fun productDao(database: AppDatabase): ProductDao {
         return database.productDao()
+    }
+
+    @Provides
+    @Singleton
+    fun tokenDao(database: AppDatabase): TokenDao {
+        return database.tokenDao()
     }
 }

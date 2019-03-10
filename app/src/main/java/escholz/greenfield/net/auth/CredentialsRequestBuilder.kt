@@ -1,9 +1,17 @@
 package escholz.greenfield.net.auth
 
-class CredentialsRequestBuilder() {
-    private var grantType: String = ""
-    private var redirectUri: String = ""
-    private var scope: String = ""
+import javax.inject.Inject
+
+class CredentialsRequestBuilder
+    @Inject
+    constructor() {
+    companion object {
+        const val AUTHORIZATION_CODE_GRANT_TYPE = "authorization_code"
+    }
+    private var grantType: String? = null
+    private var redirectUri: String? = null
+    private var scope: String? = null
+    private var code: String? = null
 
     fun grantType(value: String): CredentialsRequestBuilder {
         grantType = value
@@ -20,7 +28,21 @@ class CredentialsRequestBuilder() {
         return this
     }
 
+    fun code(value: String): CredentialsRequestBuilder {
+        code = value
+        return this
+    }
+
     fun build(): String {
-        return "$grantType&$redirectUri&$scope"
+        val building = HashSet<String>()
+        if (!grantType.isNullOrEmpty())
+            building += "grant_type=$grantType"
+        if (!code.isNullOrEmpty())
+            building += "code=$code"
+        if (!redirectUri.isNullOrEmpty())
+            building += "redirect_uri=$redirectUri"
+        if (!scope.isNullOrEmpty())
+            building += "scope=$scope"
+        return building.joinToString("&")
     }
 }

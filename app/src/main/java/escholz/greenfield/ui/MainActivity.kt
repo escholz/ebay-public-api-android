@@ -11,6 +11,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import escholz.greenfield.R
+import escholz.greenfield.net.auth.UserTokenProvider
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -23,10 +24,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     @Inject
-    lateinit var viewModelProviderFactory: ViewModelProvider.Factory;
+    lateinit var viewModelProviderFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var homeFragmentProvider: Provider<HomeFragment>
+
+    @Inject
+    lateinit var signInFragmentProvider: Provider<SignInFragment>
 
     lateinit var viewModel: MainActivityViewModel
 
@@ -39,14 +43,20 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
             .get(MainActivityViewModel::class.java)
 
-        if (supportFragmentManager.backStackEntryCount <= 0)
+        if (supportFragmentManager.backStackEntryCount <= 0) {
+            val signInFragment = signInFragmentProvider.get()
+            val arguments = Bundle()
+            arguments.putStringArray(SignInFragment.EXTRA_SCOPES,
+                arrayOf(UserTokenProvider.SELL_INVENTORY_SCOPE, UserTokenProvider.SELL_ACCOUNT_SCOPE))
+            signInFragment.arguments = arguments
             supportFragmentManager.beginTransaction()
-                .add(R.id.container, homeFragmentProvider.get(), rootFragmentTag)
+                .add(R.id.container, signInFragment, rootFragmentTag)
                 .addToBackStack(rootFragmentTag)
                 .commit()
+        }
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return fragmentInjector;
+        return fragmentInjector
     }
 }

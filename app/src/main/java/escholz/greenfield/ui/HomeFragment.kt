@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -19,7 +18,10 @@ import escholz.greenfield.R
 import javax.inject.Inject
 import javax.inject.Provider
 
-class HomeFragment @Inject constructor(): Fragment(), HasSupportFragmentInjector {
+class HomeFragment
+    @Inject
+    constructor()
+: Fragment(), HasSupportFragmentInjector {
     companion object {
         private val findProductFragmentTag: String = "findProduct"
     }
@@ -50,9 +52,9 @@ class HomeFragment @Inject constructor(): Fragment(), HasSupportFragmentInjector
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
         view?.findViewById<FloatingActionButton>(R.id.find_product_fab)?.setOnClickListener {
-            (childFragmentManager.findFragmentByTag(findProductFragmentTag) as BottomSheetDialogFragment?
+            val dialogFragment = (childFragmentManager.findFragmentByTag(findProductFragmentTag) as BottomSheetDialogFragment?
                 ?: findProductFragmentProvider.get())
-                .show(childFragmentManager, findProductFragmentTag)
+            dialogFragment.show(childFragmentManager, findProductFragmentTag)
         }
     }
 

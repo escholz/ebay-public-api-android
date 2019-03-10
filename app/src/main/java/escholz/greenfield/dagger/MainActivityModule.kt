@@ -7,8 +7,14 @@ import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import escholz.greenfield.ui.HomeFragment
 import escholz.greenfield.ui.MainActivityViewModel
+import escholz.greenfield.ui.SignInFragment
 
-@Module(includes = arrayOf(ViewModelProviderModule::class))
+@Module(
+    includes = arrayOf(
+        ViewModelProviderModule::class,
+        CoroutineScopeModule::class
+    )
+)
 abstract class MainActivityModule {
     @Binds
     @IntoMap
@@ -18,4 +24,8 @@ abstract class MainActivityModule {
     @FragmentScope(1)
     @ContributesAndroidInjector(modules = arrayOf(HomeFragmentModule::class))
     abstract fun contributesHomeFragment(): HomeFragment
+
+    @FragmentScope(1)
+    @ContributesAndroidInjector(modules = arrayOf(SignInFragmentModule::class))
+    abstract fun contributesSignInFragment(): SignInFragment
 }
