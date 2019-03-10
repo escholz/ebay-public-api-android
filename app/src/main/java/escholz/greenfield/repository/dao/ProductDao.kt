@@ -5,7 +5,7 @@ import escholz.greenfield.repository.entities.Product
 
 @Dao
 interface ProductDao {
-    @Insert(onConflict = OnConflictStrategy.ROLLBACK)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(product: Product) : Long
 
     @Update
